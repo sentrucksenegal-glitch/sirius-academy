@@ -28,9 +28,7 @@ export function Header({ onAdminClick, isAdmin, isLoggedIn }: HeaderProps) {
       }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <a href="#" className="hover:opacity-90 transition-opacity">
-          <Logo />
-        </a>
+        <Logo />
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-10">

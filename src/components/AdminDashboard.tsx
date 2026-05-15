@@ -154,6 +154,10 @@ export function AdminDashboard() {
       targetAudience: [],
       duration: '',
       price: '',
+      priceAmount: 0,
+      durationWeeks: 0,
+      popularity: 50,
+      category: 'Développement',
       paymentType: 'monthly',
       installments: 1,
       image: '',
@@ -513,13 +517,45 @@ export function AdminDashboard() {
                   />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Durée</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Catégorie</label>
+                  <Select 
+                    value={currentCourse?.category} 
+                    onValueChange={(val) => setCurrentCourse({...currentCourse!, category: val})}
+                  >
+                    <SelectTrigger className="h-14 rounded-2xl bg-slate-50 border-slate-100 font-bold">
+                      <SelectValue placeholder="Catégorie" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-2xl">
+                      <SelectItem value="Développement">Développement</SelectItem>
+                      <SelectItem value="Design">Design</SelectItem>
+                      <SelectItem value="Marketing">Marketing</SelectItem>
+                      <SelectItem value="Data">Data Science & IA</SelectItem>
+                      <SelectItem value="Bureautique">Bureautique</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Durée (Libellé)</label>
                   <input
                     required
                     value={currentCourse?.duration}
                     onChange={e => setCurrentCourse({...currentCourse!, duration: e.target.value})}
                     className="w-full h-14 bg-slate-50 rounded-2xl px-6 border border-slate-100 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition-all font-bold text-slate-900"
                     placeholder="ex: 12 semaines"
+                  />
+                </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Durée (Nombre de semaines - pour le tri)</label>
+                  <input
+                    required
+                    type="number"
+                    step="0.1"
+                    value={currentCourse?.durationWeeks}
+                    onChange={e => setCurrentCourse({...currentCourse!, durationWeeks: parseFloat(e.target.value)})}
+                    className="w-full h-14 bg-slate-50 rounded-2xl px-6 border border-slate-100 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition-all font-bold text-slate-900"
                   />
                 </div>
               </div>
@@ -557,9 +593,9 @@ export function AdminDashboard() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Prix total</label>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Prix (Libellé)</label>
                   <input
                     required
                     value={currentCourse?.price}
@@ -569,20 +605,43 @@ export function AdminDashboard() {
                   />
                 </div>
                 <div className="space-y-4">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Modalités de paiement</label>
-                  <Select 
-                    value={currentCourse?.paymentType} 
-                    onValueChange={(val) => setCurrentCourse({...currentCourse!, paymentType: val as 'unique' | 'monthly'})}
-                  >
-                    <SelectTrigger className="h-14 rounded-2xl bg-slate-50 border-slate-100 font-bold">
-                      <SelectValue placeholder="Type de paiement" />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-2xl">
-                      <SelectItem value="unique">Paiement unique</SelectItem>
-                      <SelectItem value="monthly">Mensualités</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Prix (Montant - pour le tri)</label>
+                  <input
+                    required
+                    type="number"
+                    value={currentCourse?.priceAmount}
+                    onChange={e => setCurrentCourse({...currentCourse!, priceAmount: parseInt(e.target.value)})}
+                    className="w-full h-14 bg-slate-50 rounded-2xl px-6 border border-slate-100 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition-all font-bold text-slate-900"
+                  />
                 </div>
+                <div className="space-y-4">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Popularité (0-100)</label>
+                  <input
+                    required
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={currentCourse?.popularity}
+                    onChange={e => setCurrentCourse({...currentCourse!, popularity: parseInt(e.target.value)})}
+                    className="w-full h-14 bg-slate-50 rounded-2xl px-6 border border-slate-100 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 outline-none transition-all font-bold text-slate-900"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Modalités de paiement</label>
+                <Select 
+                  value={currentCourse?.paymentType} 
+                  onValueChange={(val) => setCurrentCourse({...currentCourse!, paymentType: val as 'unique' | 'monthly'})}
+                >
+                  <SelectTrigger className="h-14 rounded-2xl bg-slate-50 border-slate-100 font-bold">
+                    <SelectValue placeholder="Type de paiement" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-2xl">
+                    <SelectItem value="unique">Paiement unique</SelectItem>
+                    <SelectItem value="monthly">Mensualités</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {currentCourse?.paymentType === 'monthly' && (

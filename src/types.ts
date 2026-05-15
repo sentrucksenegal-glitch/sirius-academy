@@ -29,6 +29,11 @@ export interface Course {
   curriculum: string[];
   visible: boolean;
   order: number;
+  // New fields for sorting and filtering
+  priceAmount: number;
+  durationWeeks: number;
+  popularity: number;
+  category: string;
 }
 
 export const COURSES: Course[] = [
@@ -42,6 +47,10 @@ export const COURSES: Course[] = [
     targetAudience: ['Étudiants en quête de spécialisation', 'Reconversion professionnelle', 'Développeurs front ou back souhaitant devenir fullstack'],
     duration: '12 semaines',
     price: '250.000 FCFA',
+    priceAmount: 250000,
+    durationWeeks: 12,
+    popularity: 95,
+    category: 'Développement',
     paymentType: 'monthly',
     installments: 3,
     monthlyPrice: '85.000 FCFA',
@@ -67,6 +76,10 @@ export const COURSES: Course[] = [
     targetAudience: ['Graphistes souhaitant se digitaliser', 'Entrepreneurs', 'Product Managers'],
     duration: '8 semaines',
     price: '150.000 FCFA',
+    priceAmount: 150000,
+    durationWeeks: 8,
+    popularity: 88,
+    category: 'Design',
     paymentType: 'monthly',
     installments: 2,
     monthlyPrice: '75.000 FCFA',
@@ -92,6 +105,10 @@ export const COURSES: Course[] = [
     targetAudience: ['Community Managers', 'Entrepreneurs', 'Responsables Marketing'],
     duration: '6 semaines',
     price: '120.000 FCFA',
+    priceAmount: 120000,
+    durationWeeks: 6,
+    popularity: 92,
+    category: 'Marketing',
     paymentType: 'monthly',
     installments: 2,
     monthlyPrice: '60.000 FCFA',
@@ -117,6 +134,10 @@ export const COURSES: Course[] = [
     targetAudience: ['Analystes', 'Ingénieurs', 'Professionnels de la finance'],
     duration: '10 semaines',
     price: '300.000 FCFA',
+    priceAmount: 300000,
+    durationWeeks: 10,
+    popularity: 85,
+    category: 'Data',
     paymentType: 'monthly',
     installments: 3,
     monthlyPrice: '100.000 FCFA',
@@ -142,6 +163,10 @@ export const COURSES: Course[] = [
     targetAudience: ['Propriétaires de petites entreprises', 'Assistants virtuels', 'Particuliers'],
     duration: '3 jours',
     price: '35.000 FCFA',
+    priceAmount: 35000,
+    durationWeeks: 0.5,
+    popularity: 98,
+    category: 'Design',
     paymentType: 'unique',
     paymentDetails: 'Paiement unique à l\'inscription.',
     image: 'https://images.unsplash.com/photo-1542744094-24638eff58bb?auto=format&fit=crop&q=80&w=800',
