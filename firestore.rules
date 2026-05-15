@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      // In a real app, you'd check a specific admin collection or custom claim
+      // For this applet, since it's a demo for one user, we'll allow the owner
+      // Or we can check a specific email if needed.
+      return isSignedIn() && (request.auth.token.email == 'sentruck.senegal@gmail.com' && request.auth.token.email_verified);
+    }
+
+    function isValidCandidate(data) {
+      return data.fullName is string && data.fullName.size() <= 100
+          && data.email is string && data.email.size() <= 100
+          && data.phone is string && data.phone.size() <= 30
+          && data.course is string && data.course.size() <= 100
+          && data.motivation is string && data.motivation.size() <= 1000
+          && data.status in ['pending', 'contacted', 'accepted', 'rejected']
+          && data.createdAt == request.time;
+    }
+
+    match /candidates/{candidateId} {
+      // Public can create applications
+      allow create: if isValidCandidate(request.resource.data);
+      // Only admin can read or update candidates
+      allow read, update, delete: if isAdmin();
+    }
+
+    function isValidCourse(data) {
+      return data.title is string && data.title.size() <= 200
+          && data.description is string && data.description.size() <= 500
+          && data.detailedDescription is string && data.detailedDescription.size() <= 2000
+          && data.visible is bool;
+    }
+
+    match /courses/{courseId} {
+      // Everyone can read courses
+      allow read: if true;
+      // Only admin can write courses
+      allow write: if isAdmin() && (request.method == 'delete' || isValidCourse(request.resource.data));
+    }
+  }
+}

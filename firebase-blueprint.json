@@ -1,0 +1,25 @@
+{
+  "entities": {
+    "candidate": {
+      "title": "Candidate",
+      "description": "Information about a person applying for a training course.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "description": "Full name of the candidate" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "phone": { "type": "string", "description": "Phone number (with prefix)" },
+        "course": { "type": "string", "description": "Course selected (e.g. Development, Design, Marketing)" },
+        "motivation": { "type": "string", "description": "Motivation message" },
+        "status": { "type": "string", "enum": ["pending", "contacted", "accepted", "rejected"], "description": "Status of the application" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Registration date" }
+      },
+      "required": ["fullName", "email", "phone", "course", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "candidates": {
+      "schema": "candidate",
+      "description": "Collection of training applications"
+    }
+  }
+}
